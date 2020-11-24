@@ -38,7 +38,7 @@ namespace GoodsToolReworked.Structure
                 //Запускаем отдельный поток для каждого "магазина", каждый поток будет проверять наличие под своим ID
                 for (int i = 0; i < Stores.Count; i++) await Task.Run(() => CheckStore(rows, i));
                 
-                System.Windows.Forms.MessageBox.Show($"DONE in {(DateTime.Now - taskStarted).TotalSeconds}s.");
+                System.Windows.Forms.MessageBox.Show($"Выполнено за {(DateTime.Now - taskStarted).TotalSeconds}s.");
                 //  TODO: Распитсать код с EclelMerge в MainForm (метод Worker) 
                 //  Sol: Кол-во потоков = кол-во магазинов, пойдём в многопоточность, получается)))
                 //  ID есть только у модели, у товаров их нет
@@ -98,6 +98,11 @@ namespace GoodsToolReworked.Structure
             ScanDone(Stores[storeID]); //   Уведомление о том, что текущий магазин спарсился
         }
 
+        /// <summary>
+        /// Входная строка содержит только числа?
+        /// </summary>
+        /// <param name="str">Текст</param>
+        /// <returns></returns>
         private static bool IsDigitsOnly(string str)
         {
             foreach (char c in str)
