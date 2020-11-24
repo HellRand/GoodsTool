@@ -35,14 +35,11 @@ namespace GoodsToolReworked.Structure
                 string text = reader.ReadToEnd();   //Весь текст
                 string[] rows = text.Split('\n');   //Строки
                 
-
-                for (int i = 0; i < Stores.Count; i++)
-                {
-                    await Task.Run(() => CheckStore(rows, i));
-                    
-                }
+                //Запускаем отдельный поток для каждого "магазина", каждый поток будет проверять наличие под своим ID
+                for (int i = 0; i < Stores.Count; i++) await Task.Run(() => CheckStore(rows, i));
+                
                 System.Windows.Forms.MessageBox.Show($"DONE in {(DateTime.Now - taskStarted).TotalSeconds}s.");
-                //  TODO: Распитсать код с EclelMerge в Form1 (метод Worker) 
+                //  TODO: Распитсать код с EclelMerge в MainForm (метод Worker) 
                 //  Sol: Кол-во потоков = кол-во магазинов, пойдём в многопоточность, получается)))
                 //  ID есть только у модели, у товаров их нет
 
@@ -52,7 +49,6 @@ namespace GoodsToolReworked.Structure
         private static Model model;
         private void CheckStore(string[] rows, int storeID)
         {
-            taskStarted = DateTime.Now;
             int strCount = rows.Length; //  Кол-во строк в текстовом док-те...
             //int strCount = 100;
             int Indexator = 0;          //  Индексатор моделей.
@@ -82,7 +78,7 @@ namespace GoodsToolReworked.Structure
                 }
                 else
                 {
-                    string size = "BUG!"; string color = "BUG";
+                    string size = "BUG!"; string color = "BUG!";
                     if (attributes.Length == 2)
                     {
                         size = attributes[0].Trim();     //  Size, Color (splitted)
