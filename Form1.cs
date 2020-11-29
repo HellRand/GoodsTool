@@ -21,20 +21,25 @@ namespace GoodsToolReworked
         public MainForm()
         {
             InitializeComponent();
+            
+        }
+
+        private void buttonStart_Click(object sender, EventArgs e)
+        {
+            
+
+            if (treeView1.Nodes.Count != 0) treeView1.Nodes.Clear();    //Подчищаем отображение
+            filled = 0;                 //Обнуляем индексатор.
+            if (stores.Count != 0) stores.Clear();             //Чистим список объектов.
+
             #region Заполняем список объектов stores
             for (int i = 0; i < storeNames.Length; i++)
             {
                 stores.Add(new Store(i, storeNames[i]));
             }
             #endregion
-        }
-
-        private void buttonStart_Click(object sender, EventArgs e)
-        {
             ProductsReader reader = new ProductsReader(@"17.08.2020 UTF-8.txt", stores);
-            treeView1.Nodes.Clear();
-            filled = 0;
-            reader.ScanDone += Reader_sCandone;     
+            reader.ScanDone += Reader_sCandone;
         }
 
         private void Reader_sCandone(Store store)

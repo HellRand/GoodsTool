@@ -9,8 +9,15 @@ namespace GoodsToolReworked.Structure
     class ProductsReader
     {
         public delegate void StoreHandler(Store store);
+
+        /// <summary>
+        /// Происходит когда объект Store спарсился
+        /// </summary>
         public event StoreHandler ScanDone;
 
+        /// <summary>
+        /// Для отслеживание времени выполнения
+        /// </summary>
         public DateTime taskStarted;
 
         /// <summary>
@@ -18,8 +25,16 @@ namespace GoodsToolReworked.Structure
         /// </summary>
         public static string Filename { get; set; }
 
+        /// <summary>
+        /// Список объектов Store
+        /// </summary>
         public static List<Store> Stores { get; set; }
 
+        /// <summary>
+        /// Конструктор, обыкновенный)))
+        /// </summary>
+        /// <param name="filename">Полный путь к файлу</param>
+        /// <param name="storelist">Список объектов Store (в дальнейшем список дополняется)</param>
         public ProductsReader(string filename, List<Store> storelist) 
         {
             Filename = filename;
@@ -27,6 +42,9 @@ namespace GoodsToolReworked.Structure
             Read();
         }
 
+        /// <summary>
+        /// Считывает файл и запускает потоки.
+        /// </summary>
         public async void Read()
         {
             taskStarted = DateTime.Now;
@@ -95,7 +113,7 @@ namespace GoodsToolReworked.Structure
                     }
                 }
             }
-            ScanDone(Stores[storeID]); //   Уведомление о том, что текущий магазин спарсился
+            ScanDone?.Invoke(Stores[storeID]); //   Уведомление о том, что текущий магазин спарсился
         }
 
         /// <summary>
