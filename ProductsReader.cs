@@ -48,20 +48,18 @@ namespace GoodsToolReworked.Structure
         public async void Read()
         {
             taskStarted = DateTime.Now;
-            using (var reader = new StreamReader(File.Open(Filename, FileMode.Open, FileAccess.Read)))
-            {
-                string text = reader.ReadToEnd();   //Весь текст
-                string[] rows = text.Split('\n');   //Строки
-                
-                //Запускаем отдельный поток для каждого "магазина", каждый поток будет проверять наличие под своим ID
-                for (int i = 0; i < Stores.Count; i++) await Task.Run(() => CheckStore(rows, i));
-                
-                System.Windows.Forms.MessageBox.Show($"Выполнено за {(DateTime.Now - taskStarted).TotalSeconds}s.");
-                //  TODO: Распитсать код с EclelMerge в MainForm (метод Worker) 
-                //  Sol: Кол-во потоков = кол-во магазинов, пойдём в многопоточность, получается)))
-                //  ID есть только у модели, у товаров их нет
+            using var reader = new StreamReader(File.Open(Filename, FileMode.Open, FileAccess.Read));
+            string text = reader.ReadToEnd();   //Весь текст
+            string[] rows = text.Split('\n');   //Строки
 
-            }
+            //Запускаем отдельный поток для каждого "магазина", каждый поток будет проверять наличие под своим ID
+            for (int i = 0; i < Stores.Count; i++) await Task.Run(() => CheckStore(rows, i));
+
+            System.Windows.Forms.MessageBox.Show($"Выполнено за {(DateTime.Now - taskStarted).TotalSeconds}s.");
+            //  TODO: Распитсать код с EclelMerge в MainForm (метод Worker) 
+            //  Sol: Кол-во потоков = кол-во магазинов, пойдём в многопоточность, получается)))
+            //  ID есть только у модели, у товаров их нет
+
         }
 
         private static Model model;
@@ -78,7 +76,7 @@ namespace GoodsToolReworked.Structure
                 string[] attributes = columns[0].Split(',');    //  Размер и цвет
 
                 //Если в ячейке нет запятых и она не пустая, то это модель.
-                bool IsModel = (attributes[0] != string.Empty) && (attributes.Length == 1) ? true : false;
+                bool IsModel = (attributes[0] != string.Empty) && (attributes.Length == 1);
                 if (IsModel)
                 {
                     //  Не учитываем подарочные сертификаты.
@@ -90,9 +88,11 @@ namespace GoodsToolReworked.Structure
                         if (model.Count != 0) Stores[storeID].AvailableModelsCount++;
                     }  //  Если мы встретили новую модель, записываем результаты прошлой
 
-                    model = new Model(Indexator);
-                    model.Name = attributes[0].Trim();  //  !Убираем пробелы в начале и в конце названия!
-                    model.Id = Indexator++;             //  Присваиваем id постинкрементом
+                    model = new Model(Indexator)
+                    {
+                        Name = attributes[0].Trim(),  //  !Убираем пробелы в начале и в конце названия!
+                        Id = Indexator++             //  Присваиваем id постинкрементом
+                    };
                 }
                 else
                 {

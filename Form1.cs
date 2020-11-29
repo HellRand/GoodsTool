@@ -13,8 +13,8 @@ namespace GoodsToolReworked
 {
     public partial class MainForm : Form
     {
-        private static List<Store> stores = new List<Store>();
-        private string[] storeNames = new string[] { "Бахетле, ул.Ямашева 71а", "Вишневского, 29/48", "ГУМ, ул.Баумана 51а",
+        private readonly static List<Store> stores = new List<Store>();
+        private readonly string[]  storeNames = new string[] { "Бахетле, ул.Ямашева 71а", "Вишневского, 29/48", "ГУМ, ул.Баумана 51а",
                                                  "Кольцо, ул.Петербургская 1", "Основной склад", "Сити-центр, Мавлютова 45", "Южный, ул.Пр.Победы 91"};
         int filled = 0;
 
@@ -24,11 +24,11 @@ namespace GoodsToolReworked
             
         }
 
-        private void buttonStart_Click(object sender, EventArgs e)
+        private void StartButton_Click(object sender, EventArgs e)
         {
             if (treeView1.Nodes.Count != 0) treeView1.Nodes.Clear();    //Подчищаем отображение
-            filled = 0;                 //Обнуляем индексатор.
-            if (stores.Count != 0) stores.Clear();             //Чистим список объектов.
+            filled = 0;                                                 //Обнуляем индексатор.
+            if (stores.Count != 0) stores.Clear();                      //Чистим список объектов.
 
             #region Заполняем список объектов stores
             for (int i = 0; i < storeNames.Length; i++)
@@ -42,7 +42,7 @@ namespace GoodsToolReworked
 
         private void Reader_sCandone(Store store)
         {
-            label1.Invoke((MethodInvoker)delegate () { label1.Text = $"{filled + 1} (+{store.ToString()})"; });
+            label1.Invoke((MethodInvoker)delegate () { label1.Text = $"{filled + 1} (+{store})"; });
             #region Заполнение treeview
             treeView1.Invoke((MethodInvoker)delegate () {
                 treeView1.Nodes.Add(new TreeNode(store.ToString()));
@@ -75,7 +75,7 @@ namespace GoodsToolReworked
 
         }
 
-        private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void TreeView_NodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             Clipboard.SetText(e.Node.Text);
             MessageBox.Show("Скопировано в буфер обмена!");
