@@ -26,8 +26,6 @@ namespace GoodsToolReworked
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            
-
             if (treeView1.Nodes.Count != 0) treeView1.Nodes.Clear();    //Подчищаем отображение
             filled = 0;                 //Обнуляем индексатор.
             if (stores.Count != 0) stores.Clear();             //Чистим список объектов.
@@ -45,25 +43,42 @@ namespace GoodsToolReworked
         private void Reader_sCandone(Store store)
         {
             label1.Invoke((MethodInvoker)delegate () { label1.Text = $"{filled + 1} (+{store.ToString()})"; });
+            #region Заполнение treeview
             treeView1.Invoke((MethodInvoker)delegate () {
                 treeView1.Nodes.Add(new TreeNode(store.ToString()));
-                var node = treeView1.Nodes[filled++];
-
-
+                var storeNode = treeView1.Nodes[filled++];
+                
+                // Цикл по моделям
                 for (int i = 0; i < store.Models.Count; i++)
                 {
                     if (store.Models[i].Count != 0)
                     {
-                        var modelNode = node.Nodes.Add(store.Models[i].ToString());
-
+                        var modelNode = storeNode.Nodes.Add(store.Models[i].ToString());
+                        //Цикл по товарам моделей
                         for (int j = 0; j < store.Models[i].Products.Count; j++)
                         {
                             if (store.Models[i].Products.Count != 0)
-                                modelNode.Nodes.Add(store.Models[i].Products[j].ToString());
+                            {
+                                var productNode = modelNode.Nodes.Add(store.Models[i].Products[j].ToString());
+                                if (store.Models[i].Products[j].Color == "BUG!")
+                                {
+                                    modelNode.BackColor = Color.Red;
+                                    productNode.BackColor = Color.Red;
+                                    storeNode.BackColor = Color.Yellow;
+                                }
+                            }
                         }
                     }
                 }
             });
+            #endregion
+
+        }
+
+        private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            Clipboard.SetText(e.Node.Text);
+            MessageBox.Show("Скопировано в буфер обмена!");
         }
     }
 }
