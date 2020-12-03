@@ -76,7 +76,9 @@ namespace GoodsToolReworked.Structure
                 string[] attributes = columns[0].Split(',');    //  Размер и цвет
 
                 //Если в ячейке нет запятых и она не пустая, то это модель.
-                bool IsModel = (attributes[0] != string.Empty) && (attributes.Length == 1);
+                //bool IsModel = (attributes[0] != string.Empty) && (attributes.Length == 1);
+                bool IsModel = attributes.Length != 2; //Самый гениальный фикс века.
+
                 if (IsModel)
                 {
                     //  Не учитываем подарочные сертификаты.
