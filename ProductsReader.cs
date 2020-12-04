@@ -9,11 +9,18 @@ namespace GoodsToolReworked.Structure
     class ProductsReader
     {
         public delegate void StoreHandler(Store store);
+        public delegate void Invoker();
 
         /// <summary>
-        /// Происходит когда объект Store спарсился
+        /// Срабатывает когда объект Store спарсился
         /// </summary>
         public event StoreHandler ScanDone;
+
+        /// <summary>
+        /// Срабатывает когда все магазины спарсились
+        /// </summary>
+        public event Invoker Done;
+        private int scanned = 0;
 
         /// <summary>
         /// Для отслеживание времени выполнения
@@ -66,7 +73,7 @@ namespace GoodsToolReworked.Structure
         private void CheckStore(string[] rows, int storeID)
         {
             int strCount = rows.Length; //  Кол-во строк в текстовом док-те...
-            //int strCount = 100;
+            scanned = 0;
             int Indexator = 0;          //  Индексатор моделей.
 
             //  С 14 строки т.к. юзлес инфо в начале документа.
@@ -116,6 +123,7 @@ namespace GoodsToolReworked.Structure
                 }
             }
             ScanDone?.Invoke(Stores[storeID]); //   Уведомление о том, что текущий магазин спарсился
+            if (++scanned == Stores.Count) Done?.Invoke();
         }
 
         /// <summary>

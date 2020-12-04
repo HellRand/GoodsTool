@@ -36,7 +36,13 @@ namespace GoodsToolReworked
                 stores.Add(new Store(i, storeNames[i]));
             }
             #endregion
-            ProductsReader reader = new ProductsReader(@"17.08.2020 UTF-8.txt", stores);
+
+            openFileDialog1.ShowDialog();
+            //openFileDialog1.OpenFile();
+            var path = openFileDialog1.FileName;
+            if (path == "") return;
+
+            ProductsReader reader = new ProductsReader(path, stores);
             reader.ScanDone += Reader_sCandone;
         }
 
