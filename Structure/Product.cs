@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GoodsToolReworked
+﻿namespace GoodsToolReworked
 {
     public class Product
     {
@@ -13,11 +9,6 @@ namespace GoodsToolReworked
             Count = count;
             Price = price;
         }
-
-        /// <summary>
-        /// Размер
-        /// </summary>
-        public string Size { get; set; }
 
         /// <summary>
         /// Цвет
@@ -33,6 +24,11 @@ namespace GoodsToolReworked
         /// Стоимость товара с указанными параметрами.
         /// </summary>
         public int Price { get; set; }
+
+        /// <summary>
+        /// Размер
+        /// </summary>
+        public string Size { get; set; }
 
         public override string ToString()
         {

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace GoodsToolReworked
 {
@@ -14,14 +12,14 @@ namespace GoodsToolReworked
         }
 
         /// <summary>
+        /// Кол-во доступных моделей.
+        /// </summary>
+        public int AvailableModelsCount { get; set; }
+
+        /// <summary>
         /// ID магазина.
         /// </summary>
         public int Id { get; set; }
-
-        /// <summary>
-        /// Имя магазина. (в нашем случае его адрес)
-        /// </summary>
-        public string Name { get; set; }
 
         /// <summary>
         /// Список моделей в текущем магазине.
@@ -29,14 +27,9 @@ namespace GoodsToolReworked
         public List<Model> Models { get; set; }
 
         /// <summary>
-        /// Кол-во доступных моделей.
+        /// Имя магазина. (в нашем случае его адрес)
         /// </summary>
-        public int AvailableModelsCount { get; set; }
-
-        public override string ToString()
-        {
-            return $"[id={Id}] {Name}. Моделей в наличии: {AvailableModelsCount} (Всего: {Models.Count}).";
-        }
+        public string Name { get; set; }
 
         public string GetFullInfo()
         {
@@ -54,6 +47,11 @@ namespace GoodsToolReworked
             }
 
             return result;
+        }
+
+        public override string ToString()
+        {
+            return $"[id={Id}] {Name}. Моделей в наличии: {AvailableModelsCount} (Всего: {Models.Count}).";
         }
     }
 }

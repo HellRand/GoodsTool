@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace GoodsToolReworked
 {
@@ -14,17 +12,17 @@ namespace GoodsToolReworked
             Products = new List<Product>();
         }
 
+        /// <summary>
+        /// Общее количество товаров модели (характеристики не имеют значения)
+        /// </summary>
+        public int Count { get; set; }
+
         public int Id { get; set; }
 
         /// <summary>
         /// Наименование модели товара.
         /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// Общее количество товаров модели (характеристики не имеют значения)
-        /// </summary>
-        public int Count { get; set; }
 
         /// <summary>
         /// Общая цена товара модели (характеристики не имеют значения).
