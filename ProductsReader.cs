@@ -12,7 +12,7 @@ namespace GoodsToolReworked.Structure
         /// </summary>
         public DateTime taskStarted;
 
-        private static Model model;
+        private static ProductType _productType;
 
         private int scanned = 0;
 
@@ -108,13 +108,13 @@ namespace GoodsToolReworked.Structure
                     //  Не учитываем подарочные сертификаты.
                     if (attributes[0].ToLower().Contains("сертификат") || IsDigitsOnly(attributes[0])) continue;
 
-                    if (model != null)
+                    if (_productType != null)
                     {
-                        Stores[storeID].Models.Add(model);
-                        if (model.Count != 0) Stores[storeID].AvailableModelsCount++;
+                        Stores[storeID].Models.Add(_productType);
+                        if (_productType.Count != 0) Stores[storeID].AvailableModelsCount++;
                     }  //  Если мы встретили новую модель, записываем результаты прошлой
 
-                    model = new Model(Indexator)
+                    _productType = new ProductType(Indexator)
                     {
                         Name = attributes[0].Trim(),  //  !Убираем пробелы в начале и в конце названия!
                         Id = Indexator++             //  Присваиваем id постинкрементом
@@ -134,8 +134,8 @@ namespace GoodsToolReworked.Structure
                     Product product = new Product(size, color, count, price);
                     if (count != -1 && price != -1)
                     {
-                        model.Count++;
-                        model.Products.Add(product);
+                        _productType.Count++;
+                        _productType.Products.Add(product);
                     }
                 }
             }

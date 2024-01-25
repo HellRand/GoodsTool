@@ -8,7 +8,7 @@ namespace GoodsToolReworked
         {
             Id = id;
             Name = name;
-            Models = new List<Model>();
+            Models = new List<ProductType>();
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace GoodsToolReworked
         /// <summary>
         /// Список моделей в текущем магазине.
         /// </summary>
-        public List<Model> Models { get; set; }
+        public List<ProductType> Models { get; set; }
 
         /// <summary>
         /// Имя магазина. (в нашем случае его адрес)

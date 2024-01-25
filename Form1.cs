@@ -1,12 +1,9 @@
 ﻿using GoodsToolReworked.Structure;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GoodsToolReworked
@@ -48,6 +45,8 @@ namespace GoodsToolReworked
 
         private void Reader_sCandone(Store store)
         {
+            SaveUniqueProductsData(store);
+
             label1.Invoke((MethodInvoker)delegate () { label1.Text = $"{filled + 1} (+{store})"; });
             #region Заполнение treeview
             treeView1.Invoke((MethodInvoker)delegate () {
@@ -79,6 +78,24 @@ namespace GoodsToolReworked
             });
             #endregion
 
+        }
+
+        private static void SaveUniqueProductsData(Store store)
+        {
+            var products = store.Models.SelectMany(x => x.Products);
+            var color_options = products.Select(x => x.Color);
+            var size_options = products.Select(x => x.Size);
+
+            var unique_colors = color_options.Distinct();
+            var unique_sizes = size_options.Distinct();
+            using (StreamWriter writer = new StreamWriter("Цвета.txt"))
+            {
+                writer.Write(string.Join('\n', unique_colors));
+            }
+            using (StreamWriter writer = new StreamWriter("Размеры.txt"))
+            {
+                writer.Write(string.Join('\n', unique_sizes));
+            }
         }
 
         private void TreeView_NodeDoubleClick(object sender, TreeNodeMouseClickEventArgs e)

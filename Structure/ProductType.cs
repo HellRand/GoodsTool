@@ -2,9 +2,9 @@
 
 namespace GoodsToolReworked
 {
-    public class Model
+    public class ProductType
     {
-        public Model(int id, string name = "", int count = 0)
+        public ProductType(int id, string name = "", int count = 0)
         {
             Id = id;
             Name = name;
@@ -23,11 +23,6 @@ namespace GoodsToolReworked
         /// Наименование модели товара.
         /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// Общая цена товара модели (характеристики не имеют значения).
-        /// </summary>
-        public int Price { get; set; }
 
         /// <summary>
         /// Вариации этой модели с характеристиками
